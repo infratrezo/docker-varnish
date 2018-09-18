@@ -9,7 +9,7 @@ fi
 
 sed -i "s/^\(\s\|\t\)*\.host.*/    .host = \"$BACKEND\";/g" /etc/varnish/default.vcl
 
-if varnishd -Cf /etc/varnish/default.vcl ; then
+if varnishd -Cf /etc/varnish/default.vcl 1>/dev/null ; then
     exec /usr/sbin/varnishd -j unix,user=vcache -F -a :${HTTP_PORT} -T localhost:${ADMIN_PORT} -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m
 else
     echo "VCL check failed - what did you do wrong?"
